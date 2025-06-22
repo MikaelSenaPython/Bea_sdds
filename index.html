@@ -15,11 +15,11 @@
             min-height: 100vh;
             background: linear-gradient(135deg, #f0e6ef 0%, #ffe0f0 100%);
             color: #5d3f6a;
-            overflow: hidden;
+            overflow: hidden; /* Mantém o overflow hidden para o body para controlar o scroll */
             position: relative;
         }
 
-        /* Corações de fundo */
+        /* Corações de fundo (já estão na página toda) */
         .background-heart {
             position: absolute;
             color: rgba(255, 182, 193, 0.3);
@@ -55,7 +55,7 @@
             width: 90%;
             box-sizing: border-box;
             position: relative;
-            overflow: hidden;
+            /* REMOVIDO: overflow: hidden; do card-container para não cortar os corações */
             animation: fadeIn 1.5s ease-out;
             border: 1px solid rgba(255, 182, 193, 0.3);
         }
@@ -171,6 +171,7 @@
             pointer-events: none;
             transform: rotate(-45deg);
             animation: floatHeart 4s infinite ease-in-out;
+            z-index: 9999; /* Garante que os corações apareçam acima de tudo */
         }
         .heart::before, .heart::after {
             content: '';
@@ -233,6 +234,7 @@
             width: 100px;
             height: 5px;
             -webkit-appearance: none;
+            appearance: none; /* Adicionada para compatibilidade */
             background: rgba(255, 182, 193, 0.3);
             border-radius: 5px;
             outline: none;
@@ -240,13 +242,14 @@
 
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
+            appearance: none; /* Adicionada para compatibilidade */
             width: 15px;
             height: 15px;
             border-radius: 50%;
             background: #d14782;
             cursor: pointer;
         }
-        
+
         .music-info {
             font-size: 0.9em;
             margin-top: 5px;
@@ -271,7 +274,7 @@
                 padding: 12px 20px;
                 font-size: 1em;
             }
-            
+
             .music-controls {
                 flex-wrap: wrap;
             }
@@ -279,17 +282,15 @@
     </style>
 </head>
 <body>
-    <!-- Corações de fundo -->
     <div id="background-hearts"></div>
-    
+
     <div class="card-container">
         <h1>Para você, minha amada! ❤️</h1>
         <p id="message-area">Descubra um carinho especial a cada clique!</p>
         <div class="button-wrapper">
             <button id="revealButton">Descobrir um elogio!</button>
         </div>
-        
-        <!-- Controles de música -->
+
         <div class="music-controls">
             <button class="music-btn" id="playBtn">▶️</button>
             <button class="music-btn" id="pauseBtn">⏸️</button>
@@ -298,12 +299,7 @@
         </div>
     </div>
 
-    <!-- Elemento de áudio para música de fundo -->
     <audio id="backgroundMusic" loop>
-        <!-- 
-          ALTERE O CAMINHO DO ARQUIVO ABAIXO PARA O SEU ARQUIVO MP3 LOCAL
-          Exemplo: <source src="sua_musica_especial.mp3" type="audio/mp3">
-        -->
         <source src="Depois.mp3" type="audio/mp3">
         Seu navegador não suporta o elemento de áudio.
     </audio>
@@ -317,14 +313,15 @@
             const playBtn = document.getElementById('playBtn');
             const pauseBtn = document.getElementById('pauseBtn');
             const volumeSlider = document.getElementById('volumeSlider');
-            const backgroundHearts = document.getElementById('background-hearts');
+            const backgroundHearts = document.getElementById('background-hearts'); // Corações de fundo
+            const body = document.body; // Adicione esta linha para pegar o elemento body
 
             // Verifica se o navegador suporta a API de áudio
             function isAudioSupported() {
                 return typeof Audio !== 'undefined';
             }
 
-            // Criar corações de fundo
+            // Criar corações de fundo (já funciona na página toda)
             function createBackgroundHearts() {
                 const heartsCount = 20;
                 for (let i = 0; i < heartsCount; i++) {
@@ -337,35 +334,23 @@
                     backgroundHearts.appendChild(heart);
                 }
             }
-            
+
             createBackgroundHearts();
 
             const messages = [
                 "Você ilumina o meu dia com o seu sorriso.",
-                "Estar com você é o meu lugar de paz.",
-                "Você me inspira a ser uma pessoa melhor, todos os dias.",
-                "Cada momento ao seu lado é um presente que guardo com carinho.",
-                "Você é a minha melhor amiga e o amor da minha vida.",
-                "Seu olhar é capaz de derreter qualquer coração.",
-                "Você é a razão pela qual eu acordo sorrindo todos os dias.",
-                "A sua risada é a música que eu mais amo ouvir.",
-                "Você traz tanta alegria e luz para a minha vida.",
-                "Seu jeito de ver o mundo é único e especial.",
-                "Você é a pessoa mais incrível que eu já conheci.",
-                "A sua presença faz com que tudo pareça mais fácil.",
-                "Você é a minha inspiração diária.",
-                "Seu amor é o meu maior tesouro.",
-                "Você tem um jeito especial de fazer tudo parecer melhor.",
-                "A sua bondade é um exemplo para todos nós.",
-                "Você é a razão pela qual eu acredito em magia.",
-                "Seu sorriso é o meu sol nos dias nublados.",
                 "Você é a minha paz em meio ao caos.",
+                "Você me inspira a ser uma pessoa melhor, todos os dias.",
+                "Seu olhar é capaz de derreter qualquer coração.",
+                "Você traz tanta alegria e luz para a minha vida.",               
+                "A sua presença faz com que tudo pareça mais fácil.",
+                "É impossível não sorrir quando estou perto de você.",
+                "Você é a razão pela qual eu acredito em magia.",
+                "Meu coração bate mais forte quando estou com você.",
                 "Obrigado por ser você, exatamente do seu jeito.",
+                "Sou grato a Deus por ter você na minha vida.",
                 "Mal posso esperar pelas próximas aventuras ao seu lado!",
-                "Estou com saudades, quero te ver! &#129402;",
-                "Você completa meu mundo de uma maneira que ninguém mais poderia.",
-                "Cada dia ao seu lado é um novo capítulo da minha história favorita.",
-                "Meu coração bate mais forte quando estou com você."
+                "Estou com saudades, quero te ver logoooo! &#129402;",
             ];
 
             let messageIndex = 0;
@@ -378,7 +363,7 @@
                     messageArea.innerHTML = text.substring(0, i + 1) + '<span class="cursor">|</span>';
                     setTimeout(() => {
                         typeWriter(text, i + 1, fnCallback);
-                    }, 50);
+                    }, 15);
                 } else {
                     messageArea.innerHTML = text;
                     if (typeof fnCallback === 'function') {
@@ -394,12 +379,15 @@
                 const size = Math.random() * 20 + 10;
                 heart.style.width = `${size}px`;
                 heart.style.height = `${size}px`;
+                // Posiciona o coração aleatoriamente na largura da tela
                 heart.style.left = `${Math.random() * 100}%`;
                 heart.style.animationDuration = `${Math.random() * 3 + 3}s`;
                 heart.style.animationDelay = `${Math.random() * 0.5}s`;
-                heart.style.top = `${cardContainer.offsetHeight - 20}px`;
-                
-                cardContainer.appendChild(heart);
+                // Ajusta a posição inicial para começar da parte inferior da tela (do body)
+                heart.style.top = `calc(100vh - ${size}px)`; // Começa logo acima da borda inferior
+
+                // ALTERAÇÃO CRÍTICA: Adiciona o coração diretamente ao body
+                body.appendChild(heart); // <-- AQUI!
 
                 heart.addEventListener('animationend', () => {
                     heart.remove();
@@ -433,7 +421,7 @@
                 if (!hasClickedFirstTime) {
                     hasClickedFirstTime = true;
                     triggerSingleHeartBurst(5, 150);
-                    
+
                     // Configura o intervalo para chuvas repetidas de corações
                     heartGenerationIntervalId = setInterval(() => {
                         triggerSingleHeartBurst(3, 200);
@@ -445,23 +433,23 @@
                     // Animação de transição
                     messageArea.style.opacity = '0';
                     messageArea.style.transform = 'translateY(10px)';
-                    
+
                     setTimeout(() => {
                         typeWriter(messages[messageIndex], 0, () => {
                             messageIndex++;
                             if (messageIndex === messages.length) {
                                 revealButton.textContent = "Mensagem Final!";
                             }
-                            
+
                             // Restaura a opacidade
                             messageArea.style.opacity = '1';
                             messageArea.style.transform = 'translateY(0)';
                         });
                     }, 300);
                 } else {
-                    messageArea.innerHTML = "Essa é a última mensagem por agora, mas meu carinho é eterno! ❤️";
+                    messageArea.innerHTML = "Essa é a última mensagem por agora, mas meu carinho por você é eterno! ❤️";
                     revealButton.style.display = 'none';
-                    
+
                     // Limpa o intervalo de corações
                     if (heartGenerationIntervalId) {
                         clearInterval(heartGenerationIntervalId);
