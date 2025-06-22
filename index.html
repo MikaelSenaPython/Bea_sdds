@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Minha Pessoa Especial ❤️</title>
+    <style>
+        /* Estilos CSS internos */
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0e6ef 0%, #ffe0f0 100%);
+            color: #5d3f6a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Corações de fundo */
+        .background-heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.3);
+            font-size: 24px;
+            animation: float 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .card-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-out;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #d14782;
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite alternate;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+            to { transform: scale(1.02); text-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        }
+
+        #message-area {
+            font-size: 1.4em;
+            line-height: 1.6;
+            min-height: 120px;
+            margin-bottom: 30px;
+            color: #7b2c82;
+            transition: all 0.5s ease;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 245, 250, 0.5);
+            position: relative;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: #d14782;
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .button-wrapper {
+            margin-top: 30px;
+            position: relative;
+        }
+
+        button {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff69b4, #d14782, #ff69b4);
+            background-size: 200% 200%;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+            opacity: 0;
+        }
+
+        button:hover {
+            background-color: #ff4d94;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        button:hover::before {
+            opacity: 1;
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Animação de corações */
+        .heart {
+            position: absolute;
+            background-color: #ffb6c1;
+            width: 15px;
+            height: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transform: rotate(-45deg);
+            animation: floatHeart 4s infinite ease-in-out;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            background-color: inherit;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+        }
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(0) rotate(-45deg); opacity: 0; }
+            10% { opacity: 1; transform: translateY(-20px) scale(0.8) rotate(-45deg); }
+            80% { opacity: 1; transform: translateY(-150px) scale(1) rotate(-45deg); }
+            100% { transform: translateY(-250px) scale(0) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Controles de música */
+        .music-controls {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 182, 193, 0.2);
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: #d14782;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background-color: rgba(255, 182, 193, 0.3);
+            transform: scale(1.1);
+        }
+
+        .volume-slider {
+            width: 100px;
+            height: 5px;
+            -webkit-appearance: none;
+            background: rgba(255, 182, 193, 0.3);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #d14782;
+            cursor: pointer;
+        }
+        
+        .music-info {
+            font-size: 0.9em;
+            margin-top: 5px;
+            color: #7b2c82;
+            font-style: italic;
+        }
+
+        /* Media Queries para telas menores (celulares) */
+        @media (max-width: 600px) {
+            .card-container {
+                padding: 20px 30px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            #message-area {
+                font-size: 1.1em;
+                min-height: 60px;
+                padding: 15px;
+            }
+            button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .music-controls {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Corações de fundo -->
+    <div id="background-hearts"></div>
+    
+    <div class="card-container">
+        <h1>Para você, minha amada! ❤️</h1>
+        <p id="message-area">Descubra um carinho especial a cada clique!</p>
+        <div class="button-wrapper">
+            <button id="revealButton">Descobrir um elogio!</button>
+        </div>
+        
+        <!-- Controles de música -->
+        <div class="music-controls">
+            <button class="music-btn" id="playBtn">▶️</button>
+            <button class="music-btn" id="pauseBtn">⏸️</button>
+            <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-slider" id="volumeSlider">
+            <div class="music-info">Música: Depois - Marisa Monte</div>
+        </div>
+    </div>
+
+    <!-- Elemento de áudio para música de fundo -->
+    <audio id="backgroundMusic" loop>
+        <!-- 
+          ALTERE O CAMINHO DO ARQUIVO ABAIXO PARA O SEU ARQUIVO MP3 LOCAL
+          Exemplo: <source src="sua_musica_especial.mp3" type="audio/mp3">
+        -->
+        <source src="Depois.mp3" type="audio/mp3">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealButton = document.getElementById('revealButton');
+            const messageArea = document.getElementById('message-area');
+            const cardContainer = document.querySelector('.card-container');
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const backgroundHearts = document.getElementById('background-hearts');
+
+            // Verifica se o navegador suporta a API de áudio
+            function isAudioSupported() {
+                return typeof Audio !== 'undefined';
+            }
+
+            // Criar corações de fundo
+            function createBackgroundHearts() {
+                const heartsCount = 20;
+                for (let i = 0; i < heartsCount; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('background-heart');
+                    heart.innerHTML = '❤';
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.animationDelay = `${Math.random() * 15}s`;
+                    heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+                    backgroundHearts.appendChild(heart);
+                }
+            }
+            
+            createBackgroundHearts();
+
+            const messages = [
+                "Você ilumina o meu dia com o seu sorriso.",
+                "Estar com você é o meu lugar de paz.",
+                "Você me inspira a ser uma pessoa melhor, todos os dias.",
+                "Cada momento ao seu lado é um presente que guardo com carinho.",
+                "Você é a minha melhor amiga e o amor da minha vida.",
+                "Seu olhar é capaz de derreter qualquer coração.",
+                "Você é a razão pela qual eu acordo sorrindo todos os dias.",
+                "A sua risada é a música que eu mais amo ouvir.",
+                "Você traz tanta alegria e luz para a minha vida.",
+                "Seu jeito de ver o mundo é único e especial.",
+                "Você é a pessoa mais incrível que eu já conheci.",
+                "A sua presença faz com que tudo pareça mais fácil.",
+                "Você é a minha inspiração diária.",
+                "Seu amor é o meu maior tesouro.",
+                "Você tem um jeito especial de fazer tudo parecer melhor.",
+                "A sua bondade é um exemplo para todos nós.",
+                "Você é a razão pela qual eu acredito em magia.",
+                "Seu sorriso é o meu sol nos dias nublados.",
+                "Você é a minha paz em meio ao caos.",
+                "Obrigado por ser você, exatamente do seu jeito.",
+                "Mal posso esperar pelas próximas aventuras ao seu lado!",
+                "Estou com saudades, quero te ver! &#129402;",
+                "Você completa meu mundo de uma maneira que ninguém mais poderia.",
+                "Cada dia ao seu lado é um novo capítulo da minha história favorita.",
+                "Meu coração bate mais forte quando estou com você."
+            ];
+
+            let messageIndex = 0;
+            let heartGenerationIntervalId = null;
+            let hasClickedFirstTime = false;
+
+            // Função para digitar o texto letra por letra
+            function typeWriter(text, i, fnCallback) {
+                if (i < text.length) {
+                    messageArea.innerHTML = text.substring(0, i + 1) + '<span class="cursor">|</span>';
+                    setTimeout(() => {
+                        typeWriter(text, i + 1, fnCallback);
+                    }, 50);
+                } else {
+                    messageArea.innerHTML = text;
+                    if (typeof fnCallback === 'function') {
+                        fnCallback();
+                    }
+                }
+            }
+
+            // Função para gerar um único coração animado
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                const size = Math.random() * 20 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                heart.style.animationDelay = `${Math.random() * 0.5}s`;
+                heart.style.top = `${cardContainer.offsetHeight - 20}px`;
+                
+                cardContainer.appendChild(heart);
+
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+            }
+
+            // Função para disparar uma "chuva" de corações
+            function triggerSingleHeartBurst(numHearts, intervalBetweenHearts) {
+                let heartsCount = 0;
+                const burstId = setInterval(() => {
+                    if (heartsCount < numHearts) {
+                        createHeart();
+                        heartsCount++;
+                    } else {
+                        clearInterval(burstId);
+                    }
+                }, intervalBetweenHearts);
+            }
+
+            // Evento principal do botão
+            revealButton.addEventListener('click', () => {
+                // Tenta tocar a música apenas após a interação do usuário
+                if (isAudioSupported() && backgroundMusic && backgroundMusic.paused) {
+                    backgroundMusic.play().catch(e => {
+                        console.log("Erro ao reproduzir música:", e);
+                        alert("Não foi possível reproduzir a música. Verifique o caminho do arquivo!");
+                    });
+                }
+
+                // Se for o PRIMEIRO clique
+                if (!hasClickedFirstTime) {
+                    hasClickedFirstTime = true;
+                    triggerSingleHeartBurst(5, 150);
+                    
+                    // Configura o intervalo para chuvas repetidas de corações
+                    heartGenerationIntervalId = setInterval(() => {
+                        triggerSingleHeartBurst(3, 200);
+                    }, 4000);
+                }
+
+                // Lógica para exibir as mensagens
+                if (messageIndex < messages.length) {
+                    // Animação de transição
+                    messageArea.style.opacity = '0';
+                    messageArea.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        typeWriter(messages[messageIndex], 0, () => {
+                            messageIndex++;
+                            if (messageIndex === messages.length) {
+                                revealButton.textContent = "Mensagem Final!";
+                            }
+                            
+                            // Restaura a opacidade
+                            messageArea.style.opacity = '1';
+                            messageArea.style.transform = 'translateY(0)';
+                        });
+                    }, 300);
+                } else {
+                    messageArea.innerHTML = "Essa é a última mensagem por agora, mas meu carinho é eterno! ❤️";
+                    revealButton.style.display = 'none';
+                    
+                    // Limpa o intervalo de corações
+                    if (heartGenerationIntervalId) {
+                        clearInterval(heartGenerationIntervalId);
+                    }
+                }
+            });
+
+            // Controles de música
+            playBtn.addEventListener('click', () => {
+                if (isAudioSupported() && backgroundMusic) {
+                    backgroundMusic.play();
+                }
+            });
+
+            pauseBtn.addEventListener('click', () => {
+                if (isAudioSupported() && backgroundMusic) {
+                    backgroundMusic.pause();
+                }
+            });
+
+            volumeSlider.addEventListener('input', () => {
+                if (isAudioSupported() && backgroundMusic) {
+                    backgroundMusic.volume = volumeSlider.value;
+                }
+            });
+
+            // Configura o volume inicial
+            if (isAudioSupported() && backgroundMusic) {
+                backgroundMusic.volume = 0.5;
+            }
+
+            // Limpa intervalos ao sair da página
+            window.addEventListener('beforeunload', () => {
+                if (heartGenerationIntervalId) {
+                    clearInterval(heartGenerationIntervalId);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
